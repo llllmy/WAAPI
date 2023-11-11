@@ -1,0 +1,235 @@
+import waapi
+import re
+
+def get_audio_getSelectedObjects():
+
+    getopts = {
+        "return": [
+            "name",
+            "path",
+            "id",
+            "type"
+        ]
+    }
+
+    getResult = {
+    }
+
+    return client.call("ak.wwise.ui.getSelectedObjects", getResult, options=getopts)
+
+def get_event_getSelectedObjects():
+
+    getopts = {
+        "return": [
+            "name",
+            "path",
+            "id",
+            "type"
+        ]
+    }
+
+    getResult = {
+    }
+
+    return client.call("ak.wwise.ui.getSelectedObjects", getResult, options=getopts)
+def createPlayEvent(audioname,auidoid,parent):
+    # newEvent="Play_"+audioname
+    # if oldEvent == newEvent:
+    #     print(newEvent+"已存在")
+    #     return
+    args = {
+        "parent": parent,
+        "type": "Event",
+        "name": "Play_"+audioname,  
+        "children": [
+        {
+            "type": "Action",
+            "name": "",
+            "@ActionType": 1,
+            "@Target": auidoid
+            # "@FadeTime": FadeTime,
+            # "@Delay": Delay
+        }
+        ]
+    }
+    return client.call("ak.wwise.core.object.create", args)
+
+
+def createStopEvent(audioname,auidoid,parent):
+    # newEvent="Stop_"+audioname
+    # if oldEvent == newEvent:
+    #     print(newEvent+"已经存在")
+    #     return
+    args = {
+        "parent": parent,
+        "type": "Event",
+        "name": "Stop_"+audioname,  
+        "children": [
+        {
+            "type": "Action",
+            "name": "",
+            "@ActionType": 2,
+            "@Target": auidoid
+            # "@FadeTime": FadeTime,
+            # "@Delay": Delay
+        }
+        ]
+    }
+    return client.call("ak.wwise.core.object.create", args)
+
+
+def getchildrenName(id):
+    args = {
+        "from": {
+            "id": [
+                id
+            ]
+        },
+        "transform": [
+            {"select": ['children']}
+        ]
+
+    }
+    
+    opts = {
+        "return": [
+            "name",
+        ]
+    }
+    
+    return client.call("ak.wwise.core.object.get", args, options=opts)["return"][0]['name']
+
+
+
+def get_children(sound_sfx_guid):
+
+    args = {
+        "from": {
+            "id": [
+                sound_sfx_guid
+            ]
+        },
+        "transform": [
+            {"select": ['children']}
+        ]
+    }
+
+
+    opts = {
+        "return": [
+            "name","id","type","path"
+        ]
+    }
+
+    return client.call("ak.wwise.core.object.get", args, options=opts)
+
+def Iscontainer(object_id):
+    Istype=get_audiotype(object_id)
+    if (Istype =="RandomSequenceContainer")|(Istype=="SwitchContainer")|(Istype=="BlendContainer"):
+        return True
+    else:
+        return False 
+    
+def get_descendants(sound_sfx_guid):
+
+    args = {
+        "from": {
+            "id": [
+                sound_sfx_guid
+            ]
+        },
+        "transform": [
+            {"select": ['descendants']}
+        ]
+    }
+
+
+    opts = {
+        "return": [
+            "name","id","type","path"
+        ]
+    }
+
+    return client.call("ak.wwise.core.object.get", args, options=opts)
+
+
+def get_parent(sound_sfx_guid):
+
+    args = {
+        "from": {
+            "id": [
+                sound_sfx_guid
+            ]
+        },
+        "transform": [
+            {"select": ['parent']}
+        ]
+    }
+
+
+    opts = {
+        "return": [
+            "name","id","type","path","parent"
+        ]
+    }
+
+    return client.call("ak.wwise.core.object.get", args, options=opts)['return']
+
+def get_audiotype(sound_sfx_guid):
+
+    args = {
+        "from": {
+            "id": [
+                sound_sfx_guid
+            ]
+        }
+    }
+
+
+    opts = {
+        "return": [
+            "name","id","type","path"
+        ]
+    }
+
+    return client.call("ak.wwise.core.object.get", args, options=opts)["return"][0]['type']
+
+def extract_name(s):
+    # 分割字符串，限定分割次数为最后一个下划线之前
+    parts = s.rsplit('_', 1)
+    # 返回分割后的第一个部分
+    return parts[0] if len(parts) > 1 else s
+
+def CEvent(ObjectsName1,ObjectsId1,parent1):
+    #print(get_children(id)["return"][0]['name'])
+    if isLoop(ObjectsId1):
+        createPlayEvent(ObjectsName1,ObjectsId1,parent1)
+        createStopEvent(ObjectsName1,ObjectsId1,parent1)
+    else:
+        createPlayEvent(ObjectsName1,ObjectsId1,parent1)  
+
+def isLoop(id):
+    #print(get_children(id)["return"][0]['name'])
+    if "_LP_" in get_children(id)["return"][0]['name']:
+        
+        return True
+    else:
+        return False
+
+
+def getchildrenCount(id):
+    args = {
+        "from": {
+            "id": [
+                id
+            ]
+        }
+    }
+    opts = {
+        "return": [
+            "childrenCount",
+        ]
+    }
+    return client.call("ak.wwise.core.object.get", args, options=opts)["return"][0]['childrenCount']
+
+client = waapi.WaapiClient(url="ws://127.0.0.1:8080/waapi")
