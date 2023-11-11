@@ -200,13 +200,23 @@ def extract_name(s):
     # 返回分割后的第一个部分
     return parts[0] if len(parts) > 1 else s
 
-def CEvent(ObjectsName1,ObjectsId1,parent1):
+def CEvent(ObjectsName1,ObjectsId1,parent1,S):
     #print(get_children(id)["return"][0]['name'])
+    
     if isLoop(ObjectsId1):
-        createPlayEvent(ObjectsName1,ObjectsId1,parent1)
-        createStopEvent(ObjectsName1,ObjectsId1,parent1)
+        if S == "PS":
+            createPlayEvent(ObjectsName1,ObjectsId1,parent1)
+            createStopEvent(ObjectsName1,ObjectsId1,parent1)
+        elif S == "XS":
+            createStopEvent(ObjectsName1,ObjectsId1,parent1)
+        else:
+            createPlayEvent(ObjectsName1,ObjectsId1,parent1)
+            
     else:
-        createPlayEvent(ObjectsName1,ObjectsId1,parent1)  
+        if S == "PS":
+            createPlayEvent(ObjectsName1,ObjectsId1,parent1)  
+        if S == "PX":
+            createPlayEvent(ObjectsName1,ObjectsId1,parent1)
 
 def isLoop(id):
     #print(get_children(id)["return"][0]['name'])

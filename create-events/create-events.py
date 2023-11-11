@@ -30,11 +30,17 @@ while True:
     input('\x1b[1;33;40m'+'请选择事件(Events)位置后点击此处按Enter:'+ '\x1b[0m')
     getE = wa.get_event_getSelectedObjects()["objects"][0]
     #print(getE)
+    
     if getE["path"][:6] != "\Event":
-        print('\x1b[1;31;40m'+"选择的不是事件对象,请重新选择"+ '\x1b[0m')
+        
+        print('\x1b[1;31;40m'+"选择的不是事件层级,请重新选择"+ '\x1b[0m')
         continue
     else:
-        break
+        if getE["type"]!="Event":
+            break
+        else:
+            print('\x1b[1;31;40m'+"选择的不能是事件对象,请重新选择"+ '\x1b[0m')
+            continue
 EventCh = wa.get_children(getE["id"])
 oldEvents=[]
 for e in EventCh["return"]:
@@ -55,30 +61,38 @@ for Objects in get:
         else:
             cname=wa.extract_name(wa.getchildrenName(ObjectsId))
         if wa.extract_name(wa.getchildrenName(ObjectsId)) in ObjectsName:
-
+            CEvt = False
+            CA = "P"
+            CB = "S"
             if (("Play_"+cname) in oldEvents):
                 print('\x1b[1;31;40m'+"Play_"+cname+"事件已存在|"+ObjectsPath+ '\x1b[0m')
                 CCoutFalse+=1
-            elif (("Stop_"+cname) in oldEvents):
+                CEvt =True
+            if (("Stop_"+cname) in oldEvents):
                 print('\x1b[1;31;40m'+"Stop_"+cname+"事件已存在|"+ObjectsPath+ '\x1b[0m')
                 CCoutFalse+=1
-            else:  
-                wa.CEvent(cname,ObjectsId,getE["path"])
+                CEvt =True
+            if (CA+CB) !="XX": 
+                wa.CEvent(cname,ObjectsId,getE["path"],(CA+CB))
                 print('\x1b[1;32;40m'+"创建了"+ObjectsName+"音频"+ '\x1b[0m')
                 CCoutTrue+=1
         else:
             print('\x1b[1;31;40m'+"检查此容器下命名："+ObjectsName+"   "+ObjectsPath+ '\x1b[0m')
             CCoutFalse+=1
     elif ObjectsType=="Sound":
-        
+        CEvt = False
+        CA = "P"
+        CB = "S"
         if (("Play_"+cname) in oldEvents):
             print('\x1b[1;31;40m'+"Play_"+cname+"事件已存在|"+ObjectsPath+ '\x1b[0m')
             CCoutFalse+=1
-        elif (("Stop_"+cname) in oldEvents):
+            CEvt =True
+        if (("Stop_"+cname) in oldEvents):
             print('\x1b[1;31;40m'+"Stop_"+cname+"事件已存在|"+ObjectsPath+ '\x1b[0m')
             CCoutFalse+=1
-        else:  
-            wa.CEvent(ObjectsName,ObjectsId,getE["path"])
+            CEvt =True
+        if (CA+CB) !="XX":
+            wa.CEvent(ObjectsName,ObjectsId,getE["path"],(CA+CB))
             print('\x1b[1;32;40m'+"创建了"+ObjectsName+"音频"+ '\x1b[0m')
             CCoutTrue+=1
     getD = wa.get_descendants(ObjectsId)['return']
@@ -97,15 +111,19 @@ for Objects in get:
             else:
                 cname=wa.extract_name(wa.getchildrenName(i["id"]))
             if wa.extract_name(wa.getchildrenName(i["id"])) in i["name"]:
-
+                CEvt = False
+                CA = "P"
+                CB = "S"
                 if (("Play_"+cname) in oldEvents):
                     print('\x1b[1;31;40m'+"Play_"+cname+"事件已存在|"+i["path"]+ '\x1b[0m')
                     CCoutFalse+=1
-                elif (("Stop_"+cname) in oldEvents):
+                    CEvt =True
+                if (("Stop_"+cname) in oldEvents):
                     print('\x1b[1;31;40m'+"Stop_"+cname+"事件已存在|"+i["path"]+ '\x1b[0m')
                     CCoutFalse+=1
-                else:  
-                    wa.CEvent(cname,i['id'],getE["path"])
+                    CEvt =True
+                if (CA+CB) !="XX":  
+                    wa.CEvent(cname,i['id'],getE["path"],(CA+CB))
                     CCoutTrue+=1
                     print('\x1b[1;32;40m'+"创建了"+i["name"]+"容器"+ '\x1b[0m')
             else:
@@ -116,15 +134,21 @@ for Objects in get:
             #print(wa.get_parent(i["id"])['id'])
             cname=i["name"]
             if wa.Iscontainer(wa.get_parent(i["id"])[0]["id"])==False:
-                
+                CEvt = False
+                CA = "P"
+                CB = "S"
                 if (("Play_"+cname) in oldEvents):
                     print('\x1b[1;31;40m'+"Play_"+cname+"事件已存在|"+i["path"]+ '\x1b[0m')
                     CCoutFalse+=1
-                elif (("Stop_"+cname) in oldEvents):
+                    CEvt =True
+                    CA = "X"
+                if (("Stop_"+cname) in oldEvents):
                     print('\x1b[1;31;40m'+"Stop_"+cname+"事件已存在|"+i["path"]+ '\x1b[0m')
                     CCoutFalse+=1
-                else:  
-                    wa.CEvent(i["name"],i['id'],getE["path"])
+                    CEvt =True
+                    CB = "X"
+                if (CA+CB) !="XX":   
+                    wa.CEvent(i["name"],i['id'],getE["path"],(CA+CB))
                     print('\x1b[1;32;40m'+"创建了"+i["name"]+"音频"+ '\x1b[0m')
                     CCoutTrue+=1
 
