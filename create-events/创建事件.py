@@ -193,77 +193,77 @@ while True:
         break
 
 
+if __name__ == "__main__":
+#print(type(getE))
+#print(get["objects"][0]["path"])
+    parent = "\\Events\\Elemental\\Energy\\Earthquake\\Earthquake_3L_A"
+    parent = getE
+    for Objects in get["objects"]:
+        ObjectsName = Objects["name"]
+        ObjectsPath = Objects["path"]
+        ObjectsId = Objects["id"]
+        ObjectsType = Objects["type"]
 
-print(type(getE))
-print(get["objects"][0]["path"])
-parent = "\\Events\\Elemental\\Energy\\Earthquake\\Earthquake_3L_A"
-parent = getE
-for Objects in get["objects"]:
-    ObjectsName = Objects["name"]
-    ObjectsPath = Objects["path"]
-    ObjectsId = Objects["id"]
-    ObjectsType = Objects["type"]
+        pattern = r'([^_]+)_\d+$'
+        #print("getchildrenName"+getchildrenName(ObjectsId))
+        if (getchildrenCount(ObjectsId)>0)|(get_audiotype(ObjectsId) != "Sound"):
+            if get_audiotype(ObjectsId) == "RandomSequenceContainer":
+                
 
-    pattern = r'([^_]+)_\d+$'
-    #print("getchildrenName"+getchildrenName(ObjectsId))
-    if (getchildrenCount(ObjectsId)>0)|(get_audiotype(ObjectsId) != "Sound"):
-        if get_audiotype(ObjectsId) == "RandomSequenceContainer":
-            
+                match = re.search(pattern, getchildrenName(ObjectsId))
+                if match:
+                    name = getchildrenName(ObjectsId).rsplit('_', 1)[0]
+                else:
+                    name = getchildrenName(ObjectsId)
+                CeaLP(name,ObjectsId,parent)
+            for Objects1 in get_children(ObjectsId)['return']:
+                if (getchildrenCount(Objects1["id"])>0)|(get_audiotype(Objects1["id"]) != "Sound"):
+                    if get_audiotype(Objects1["id"]) == "RandomSequenceContainer":
 
-            match = re.search(pattern, getchildrenName(ObjectsId))
-            if match:
-                name = getchildrenName(ObjectsId).rsplit('_', 1)[0]
-            else:
-                name = getchildrenName(ObjectsId)
-            CeaLP(name,ObjectsId,parent)
-        for Objects1 in get_children(ObjectsId)['return']:
-            if (getchildrenCount(Objects1["id"])>0)|(get_audiotype(Objects1["id"]) != "Sound"):
-                if get_audiotype(Objects1["id"]) == "RandomSequenceContainer":
+                        match = re.search(pattern, getchildrenName(Objects1["id"]))
+                        if match:
+                            name = getchildrenName(Objects1["id"]).rsplit('_', 1)[0]
+                        else:
+                            name = getchildrenName(Objects1["id"])
 
-                    match = re.search(pattern, getchildrenName(Objects1["id"]))
-                    if match:
-                        name = getchildrenName(Objects1["id"]).rsplit('_', 1)[0]
-                    else:
-                        name = getchildrenName(Objects1["id"])
+                        CeaLP(name,Objects1,parent)
+                    for Objects2 in get_children(Objects1["id"])['return']:
+                        #pprint(Objects2["name"])
+                        if (getchildrenCount(Objects2["id"])>0)|(get_audiotype(Objects2["id"]) != "Sound"):
+                            if get_audiotype(Objects2["id"]) == "RandomSequenceContainer":
 
-                    CeaLP(name,Objects1,parent)
-                for Objects2 in get_children(Objects1["id"])['return']:
-                    #pprint(Objects2["name"])
-                    if (getchildrenCount(Objects2["id"])>0)|(get_audiotype(Objects2["id"]) != "Sound"):
-                        if get_audiotype(Objects2["id"]) == "RandomSequenceContainer":
-
-                            match = re.search(pattern, getchildrenName(Objects2["id"]))
-                            if match:
-                                name = getchildrenName(Objects2["id"]).rsplit('_', 1)[0]
-                            else:
-                                name = getchildrenName(Objects2["id"])
-
-
-                            CeaLP(name,Objects2["id"],parent)
-                        for Objects3 in get_children(Objects2["id"])['return']:
-                            if (getchildrenCount(Objects3["id"])>0)|(get_audiotype(Objects3["id"]) != "Sound"):
-                                if get_audiotype(Objects3["id"]) == "RandomSequenceContainer":
-
-                                    match = re.search(pattern, getchildrenName(Objects3["id"]))
-                                    if match:
-                                        name = getchildrenName(Objects3["id"]).rsplit('_', 1)[0]
-                                    else:
-                                        name = getchildrenName(Objects3["id"])
+                                match = re.search(pattern, getchildrenName(Objects2["id"]))
+                                if match:
+                                    name = getchildrenName(Objects2["id"]).rsplit('_', 1)[0]
+                                else:
+                                    name = getchildrenName(Objects2["id"])
 
 
-                                    CeaLP(name,Objects3["id"],parent)
-                                for Objects4 in get_children(Objects3["id"])['return']:
-                                    if (getchildrenCount(Objects4["id"])>0)|(get_audiotype(Objects4["id"]) != "Sound"):
-                                        if get_audiotype(Objects4["id"]) == "RandomSequenceContainer":
+                                CeaLP(name,Objects2["id"],parent)
+                            for Objects3 in get_children(Objects2["id"])['return']:
+                                if (getchildrenCount(Objects3["id"])>0)|(get_audiotype(Objects3["id"]) != "Sound"):
+                                    if get_audiotype(Objects3["id"]) == "RandomSequenceContainer":
 
-                                            
-                                            match = re.search(pattern, getchildrenName(Objects4["id"]))
-                                            if match:
-                                                name = getchildrenName(Objects4["id"]).rsplit('_', 1)[0]
-                                            else:
-                                                name = getchildrenName(Objects4["id"])
-
-                                            CeaLP(name,Objects4["id"],parent)
+                                        match = re.search(pattern, getchildrenName(Objects3["id"]))
+                                        if match:
+                                            name = getchildrenName(Objects3["id"]).rsplit('_', 1)[0]
+                                        else:
+                                            name = getchildrenName(Objects3["id"])
 
 
-client.disconnect()
+                                        CeaLP(name,Objects3["id"],parent)
+                                    for Objects4 in get_children(Objects3["id"])['return']:
+                                        if (getchildrenCount(Objects4["id"])>0)|(get_audiotype(Objects4["id"]) != "Sound"):
+                                            if get_audiotype(Objects4["id"]) == "RandomSequenceContainer":
+
+                                                
+                                                match = re.search(pattern, getchildrenName(Objects4["id"]))
+                                                if match:
+                                                    name = getchildrenName(Objects4["id"]).rsplit('_', 1)[0]
+                                                else:
+                                                    name = getchildrenName(Objects4["id"])
+
+                                                CeaLP(name,Objects4["id"],parent)
+
+
+    client.disconnect()

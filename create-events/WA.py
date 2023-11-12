@@ -1,6 +1,6 @@
 import waapi
 import re
-
+import os
 def get_audio_getSelectedObjects():
 
     getopts = {
@@ -98,6 +98,36 @@ def getchildrenName(id):
     }
     
     return client.call("ak.wwise.core.object.get", args, options=opts)["return"][0]['name']
+
+def getAllSub(path):
+    Dirlist = []
+    Filelist = []
+    for home, dirs, files in os.walk(path):
+        # 获得所有文件夹
+        for dirname in dirs:
+            Dirlist.append(os.path.join(home, dirname))
+        # 获得所有文件
+        for filename in files:
+            if os.path.splitext((filename))[-1] == ".wav":
+                Filelist.append(os.path.join(home, filename))
+    return Dirlist, Filelist
+
+def check_all_elements_in_string(string_list, target_string):
+    # 使用 all 函数和列表推导式来检查
+    return all(element in target_string for element in string_list)
+
+
+def check_if_children_are_containers(children):
+    # 获取子对象
+    
+    for child in children["return"]:
+
+        obj_type = child["type"]
+        # 检查是否是容器类型
+        if obj_type in ['WorkUnit', 'Folder', 'ActorMixer', 'RandomSequenceContainer', 'SwitchContainer', 'BlendContainer']:
+            return True
+
+        return False
 
 
 
