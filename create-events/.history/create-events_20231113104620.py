@@ -116,8 +116,7 @@ for Objects in get:
                     else:
                         cname=wa.extract_name(wa.getchildrenName(i["id"]))
                     print(wa.extract_name(wa.getchildrenName(i["id"])))
-                    print(i["name"])
-                    if i["name"] in wa.extract_name(wa.getchildrenName(i["id"])) :
+                    if wa.extract_name(wa.getchildrenName(i["id"])) in i["name"]:
                         CEvt = False
                         CA = "P"
                         CB = "S"

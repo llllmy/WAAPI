@@ -108,16 +108,13 @@ for Objects in get:
         #print(i["id"])
         if wa.Iscontainer(wa.get_parent(i["id"])[0]["id"])==False:
             if wa.Iscontainer(i["id"]):
-                if wa.getchildrenCount(i["id"])>0:
+                if wa.getchildrenCount(ObjectsId)>0:
                     #print(type(i))
-
                     if i["name"] == wa.getchildrenName(i["id"]):
                         cname=i["name"]
                     else:
                         cname=wa.extract_name(wa.getchildrenName(i["id"]))
-                    print(wa.extract_name(wa.getchildrenName(i["id"])))
-                    print(i["name"])
-                    if i["name"] in wa.extract_name(wa.getchildrenName(i["id"])) :
+                    if wa.extract_name(wa.getchildrenName(i["id"])) in i["name"]:
                         CEvt = False
                         CA = "P"
                         CB = "S"

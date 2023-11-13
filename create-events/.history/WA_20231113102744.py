@@ -17,19 +17,6 @@ def get_audio_getSelectedObjects():
 
     return client.call("ak.wwise.ui.getSelectedObjects", getResult, options=getopts)
 
-def setVolume(id,v):
-    args ={
-         
-        
-        "object": id,
-        
-        "property": "Volume", 
-        "value": v,    
-    }
-
-    return client.call("ak.wwise.core.object.setProperty", args)
-
-
 def get_event_getSelectedObjects():
 
     getopts = {
@@ -50,7 +37,6 @@ def createPlayEvent(audioname,auidoid,parent):
     # if oldEvent == newEvent:
     #     print(newEvent+"已存在")
     #     return
-    audioname = audioname.replace(" ", "")
     args = {
         "parent": parent,
         "type": "Event",
@@ -74,7 +60,6 @@ def createStopEvent(audioname,auidoid,parent):
     # if oldEvent == newEvent:
     #     print(newEvent+"已经存在")
     #     return
-    audioname = audioname.replace(" ", "")
     args = {
         "parent": parent,
         "type": "Event",
@@ -111,7 +96,7 @@ def getchildrenName(id):
             "name",
         ]
     }
-
+    
     return client.call("ak.wwise.core.object.get", args, options=opts)["return"][0]['name']
 
 def getAllSub(path):
