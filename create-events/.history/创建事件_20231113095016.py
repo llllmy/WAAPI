@@ -111,8 +111,7 @@ def createPlayEvent(audioname,auidoid,parent):
     args = {
         "parent": parent,
         "type": "Event",
-        "name": "Play_"+audioname, 
-        "autoAddToSourceControl": True, 
+        "name": "Play_"+audioname,  
         "children": [
         {
             "type": "Action",
@@ -131,7 +130,6 @@ def createStopEvent(audioname,auidoid,parent):
         "parent": parent,
         "type": "Event",
         "name": "Stop_"+audioname,  
-        "autoAddToSourceControl": True, 
         "children": [
         {
             "type": "Action",

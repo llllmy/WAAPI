@@ -1,6 +1,8 @@
 import WA as wa
 
 
+import cProfile
+
 
 
 get = wa.get_audio_getSelectedObjects()["objects"]

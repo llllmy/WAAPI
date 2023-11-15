@@ -30,7 +30,7 @@ def get_audio_getSelectedObjects():
     }
 
     return client.call("ak.wwise.ui.getSelectedObjects", getResult, options=getopts)
-@time_this_function
+
 def setVolume(id,v):
     args ={
          

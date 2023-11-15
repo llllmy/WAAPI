@@ -131,7 +131,6 @@ def createStopEvent(audioname,auidoid,parent):
         "parent": parent,
         "type": "Event",
         "name": "Stop_"+audioname,  
-        "autoAddToSourceControl": True, 
         "children": [
         {
             "type": "Action",
