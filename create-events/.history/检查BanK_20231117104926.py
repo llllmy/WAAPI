@@ -42,22 +42,11 @@ import WA as wa
 
 #     return client.call("ak.wwise.core.object.get", args, options=opts)
 
-def setInclusions(id,objid):
+def setInclusions(id):
 
     getopts ={
-    "soundbank": id,
-    "operation": "add",
-    "inclusions": [
-        {
-            "object": objid,
-            "filter": [
-                "events",
-                "structures",
-                "media"
-            ]
-        }
-    ]
-}
+        "soundbank":id
+    }
 
     getResult = {
     }
@@ -76,18 +65,16 @@ for g in get:
         
         #print(i["type"])
         if i["type"] == "SoundBank":
-            print(i["id"])
                 #print(i)
             if len(wa.getInclusions(i["id"])["inclusions"]) > 0:
                # print(len(wa.getInclusions(i["id"])["inclusions"]))
                 #print(getInclusions(i["id"])["inclusions"])
                 for z in wa.getInclusions(i["id"])["inclusions"]:
-                    print(z["object"])
+
                     #print(z["filter"])#['events', 'structures', 'media']
                     if ("media" not in z["filter"])|("events" not in z["filter"])|("structures" not in z["filter"]):
                         #print(z["filter"])
                         #print(i["name"])
-                        setInclusions(i["id"],z["object"])
                         if i["name"] not in noincl:
                             noincl.append(i["name"])
 print(noincl)

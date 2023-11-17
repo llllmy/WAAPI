@@ -87,7 +87,7 @@ for g in get:
                     if ("media" not in z["filter"])|("events" not in z["filter"])|("structures" not in z["filter"]):
                         #print(z["filter"])
                         #print(i["name"])
-                        setInclusions(i["id"],z["object"])
+                        setInclusions(i["id"],z["filter"])
                         if i["name"] not in noincl:
                             noincl.append(i["name"])
 print(noincl)
